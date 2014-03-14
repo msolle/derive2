@@ -27,5 +27,13 @@ public class DeriveListFragment extends ListFragment {
 		Derive d = (Derive)(getListAdapter()).getItem(position);
 		Log.d(TAG, d.getTitle() + " was clicked");
 	}
+	
+	private class DeriveAdapter extends ArrayAdapter<Derive> {
+		
+		public DeriveAdapter(ArrayList<Derive> derives) {
+			super(getActivity(), 0, derives);
+		}
+		
+	}
 
 }
