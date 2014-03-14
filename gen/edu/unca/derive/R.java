@@ -26,6 +26,9 @@ public final class R {
     public static final class id {
         public static final int derive_date=0x7f070002;
         public static final int derive_done=0x7f070003;
+        public static final int derive_list_item_dateTextView=0x7f070006;
+        public static final int derive_list_item_doneCheckBox=0x7f070004;
+        public static final int derive_list_item_titleTextView=0x7f070005;
         public static final int derive_title=0x7f070001;
         public static final int fragmentContainer=0x7f070000;
     }
