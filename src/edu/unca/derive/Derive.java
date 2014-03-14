@@ -43,4 +43,9 @@ public class Derive {
 		mDate = new Date();
 	}
 	
+	@Override
+	public String toString() {
+		return mTitle;
+	}
+	
 }
