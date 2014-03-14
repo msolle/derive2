@@ -30,7 +30,7 @@ public final class R {
         public static final int fragmentContainer=0x7f070000;
     }
     public static final class layout {
-        public static final int activity_derive=0x7f030000;
+        public static final int activity_fragment=0x7f030000;
         public static final int fragment_derive=0x7f030001;
     }
     public static final class string {
@@ -39,6 +39,7 @@ public final class R {
         public static final int derive_done_label=0x7f050005;
         public static final int derive_title_hint=0x7f050002;
         public static final int derive_title_label=0x7f050003;
+        public static final int derives_title=0x7f050006;
         public static final int title_activity_derive=0x7f050001;
     }
     public static final class style {

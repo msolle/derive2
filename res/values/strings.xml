@@ -7,5 +7,6 @@
     <string name="derive_title_label">Title</string>
     <string name="derive_details_label">Details</string>
     <string name="derive_done_label">Done?</string>
+    <string name="derives_title">Derives</string>
     
 </resources>
