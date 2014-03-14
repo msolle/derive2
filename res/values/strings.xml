@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Derive</string>
+    <string name="title_activity_derive">DeriveActivity</string>
+    <string name="derive_title_hint">Enter a title for the Derive.</string>
+    <string name="derive_title_label">Title</string>
+    <string name="derive_details_label">Details</string>
+    <string name="derive_done_label">Done?</string>
+    
+</resources>
