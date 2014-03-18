@@ -2,6 +2,7 @@ package edu.unca.derive;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -27,8 +28,21 @@ public class DeriveListFragment extends ListFragment {
 	}
 	
 	public void onListItemClick(ListView l, View v, int position, long id) {
+		//Get derive from adapter
 		Derive d = ((DeriveAdapter)getListAdapter()).getItem(position);
 		Log.d(TAG, d.getTitle() + " was clicked");
+		
+		//Start DeriveActivity
+		
+		Intent i = new Intent(getActivity(), DeriveActivity.class);
+		i.putExtra(DeriveFragment.EXTRA_DERIVE_ID, d.getId());
+		startActivity(i);
+		
+	}
+	
+	public void onResume() {
+		super.onResume();
+		((DeriveAdapter)getListAdapter()).notifyDataSetChanged();
 	}
 	
 	private class DeriveAdapter extends ArrayAdapter<Derive> {

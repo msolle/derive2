@@ -8,6 +8,8 @@
 package edu.unca.derive;
 
 
+import java.util.UUID;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -24,16 +26,31 @@ import android.widget.EditText;
 
 
 public class DeriveFragment extends Fragment {	
+	
+	public static final String EXTRA_DERIVE_ID = "edu.unca.derive.derive_id";
+	
 	private Derive mDerive;
 	private EditText mTitleField;
 	private Button mDateButton;
 	private CheckBox mDoneCheckBox;
 	
+	
+	public static DeriveFragment newInstance(UUID deriveId) {
+		Bundle args = new Bundle();
+		args.putSerializable(EXTRA_DERIVE_ID, deriveId);
+		DeriveFragment fragment = new DeriveFragment();
+		fragment.setArguments(args);
+		return fragment;
+	}
+	
+	
 	//Fragment.onCreate(Bundle)
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		mDerive = new Derive();
+		UUID deriveId = (UUID)getArguments().getSerializable(EXTRA_DERIVE_ID);
+		mDerive = DeriveList.get(getActivity()).getDerive(deriveId);
+		//mDerive = new Derive();
 	}//onCreate(Bundle)
 	
 	/**
@@ -44,6 +61,7 @@ public class DeriveFragment extends Fragment {
 		
 		//Editable Title Field		
 		mTitleField = (EditText) v.findViewById(R.id.derive_title);
+		mTitleField.setText(mDerive.getTitle());
 		mTitleField.addTextChangedListener(new TextWatcher() {
 			
 			public void onTextChanged(CharSequence c, int start, int before, int count) {
@@ -67,6 +85,7 @@ public class DeriveFragment extends Fragment {
 		
 		//Done Check Box
 		mDoneCheckBox = (CheckBox)v.findViewById(R.id.derive_done);			
+		mDoneCheckBox.setChecked(mDerive.isDone());
 		mDoneCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				//Set the Derive's done property
