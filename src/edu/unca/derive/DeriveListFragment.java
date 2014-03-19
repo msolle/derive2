@@ -30,11 +30,10 @@ public class DeriveListFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		//Get derive from adapter
 		Derive d = ((DeriveAdapter)getListAdapter()).getItem(position);
-		Log.d(TAG, d.getTitle() + " was clicked");
+		//Log.d(TAG, d.getTitle() + " was clicked");
 		
-		//Start DeriveActivity
-		
-		Intent i = new Intent(getActivity(), DeriveActivity.class);
+		//Start DerivePagerActivity
+		Intent i = new Intent(getActivity(), DerivePagerActivity.class);
 		i.putExtra(DeriveFragment.EXTRA_DERIVE_ID, d.getId());
 		startActivity(i);
 		

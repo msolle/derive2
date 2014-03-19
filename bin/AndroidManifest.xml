@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="edu.unca.derive.DeriveActivity"
+            android:name=".DerivePagerActivity"
             android:label="@string/app_name" >
     	</activity>
     </application>
