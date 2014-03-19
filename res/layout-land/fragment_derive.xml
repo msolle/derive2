@@ -2,22 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="#444444"> 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#b5b5b5"
         android:text="@string/derive_title_label"
         style="?android:listSeparatorTextViewStyle"
         />
     <EditText android:id="@+id/derive_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"        
+        android:layout_height="wrap_content"  
+        android:textColor="#b5b5b5"      
         android:hint="@string/derive_title_hint"
         />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#b5b5b5"
         android:text="@string/derive_details_label"
         style="?android:listSeparatorTextViewStyle"
         />
@@ -35,6 +39,7 @@
             android:layout_weight="66"/>
 
         <CheckBox
+            android:textColor="#b5b5b5"
             android:id="@+id/derive_done"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

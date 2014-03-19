@@ -1,6 +1,7 @@
 package edu.unca.derive;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -36,6 +37,31 @@ public class DerivePagerActivity extends FragmentActivity {
 			}
 			
 		});
+		
+		mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+			
+			public void onPageSelected(int pos) {
+				Derive derive = mDerives.get(pos);
+				if(derive.getTitle() != null)
+					setTitle(derive.getTitle());
+				
+			}
+					
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void onPageScrollStateChanged(int arg0){ }
+		});
+		
+		UUID deriveId = (UUID)getIntent().getSerializableExtra(DeriveFragment.EXTRA_DERIVE_ID);
+		for(int i = 0; i < mDerives.size(); i++){
+			if(mDerives.get(i).getId().equals(deriveId)) {
+				mViewPager.setCurrentItem(i);
+				break;
+			}
+		}
 		
 	}
 }
