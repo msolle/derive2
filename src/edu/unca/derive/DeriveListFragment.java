@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class DeriveListFragment extends ListFragment {
 	private ArrayList<Derive> mDerives;
-	private static final String TAG = "CrimeListFragment";
+	private static final String TAG = "DeriveListFragment";
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
