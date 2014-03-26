@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
@@ -28,6 +29,7 @@ import android.widget.EditText;
 public class DeriveFragment extends Fragment {	
 	
 	public static final String EXTRA_DERIVE_ID = "edu.unca.derive.derive_id";
+	private static final String DIALOG_DATE = "date";
 	
 	private Derive mDerive;
 	private EditText mTitleField;
@@ -81,7 +83,14 @@ public class DeriveFragment extends Fragment {
 		//Date button
 		mDateButton = (Button)v.findViewById(R.id.derive_date);
 		mDateButton.setText(DateFormat.format("K:mm a, EEEE, MMM dd, yyyy", mDerive.getDate()).toString());
-		mDateButton.setEnabled(false);
+		mDateButton.setOnClickListener(new View.OnClickListener() {		
+			public void onClick(View v) {
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				DatePickerFragment dialog = new DatePickerFragment();
+				dialog.show(fm, DIALOG_DATE);
+				
+			}
+		});
 		
 		//Done Check Box
 		mDoneCheckBox = (CheckBox)v.findViewById(R.id.derive_done);			

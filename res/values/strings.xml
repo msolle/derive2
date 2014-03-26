@@ -8,5 +8,6 @@
     <string name="derive_details_label">Details</string>
     <string name="derive_done_label">Done?</string>
     <string name="derives_title">Derives</string>
+    <string name="date_picker_title">Date of Derive:</string>
     
 </resources>
