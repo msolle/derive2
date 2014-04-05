@@ -8,8 +8,11 @@
 package edu.unca.derive;
 
 
+import java.util.Date;
 import java.util.UUID;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,9 +26,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class DeriveFragment extends Fragment {	
@@ -95,6 +98,21 @@ public class DeriveFragment extends Fragment {
 		//savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
 	}
 	
+	//Abstraction for date update
+	public void updateDate() {
+		mDateButton.setText(DateFormat.format("K:mm a, EEEE, MMM dd, yyyy", mDerive.getDate()).toString());
+	}
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(resultCode != Activity.RESULT_OK) return;
+		if(requestCode == REQUEST_DATE){
+			Date date = (Date)data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+			mDerive.setDate(date);
+			updateDate();
+		}
+	}
+	
+	
 	
 	/**
 	 * @return v Fragment view
@@ -133,7 +151,7 @@ public class DeriveFragment extends Fragment {
 		
 		//Date button
 		mDateButton = (Button)v.findViewById(R.id.derive_date);
-		mDateButton.setText(DateFormat.format("K:mm a, EEEE, MMM dd, yyyy", mDerive.getDate()).toString());
+		updateDate();
 		mDateButton.setOnClickListener(new View.OnClickListener() {		
 			public void onClick(View v) {
 				FragmentManager fm = getActivity().getSupportFragmentManager();
