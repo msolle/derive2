@@ -34,6 +34,7 @@ public class DeriveFragment extends Fragment {
 	private static final String DIALOG_DATE = "date";
 	private static final String KEY_INDEX = "index"; 
 	private static final String TAG = "Derive";
+	private static final int REQUEST_DATE = 0;
 	
 	private Derive mDerive;
 	private EditText mTitleField;
@@ -137,6 +138,7 @@ public class DeriveFragment extends Fragment {
 			public void onClick(View v) {
 				FragmentManager fm = getActivity().getSupportFragmentManager();
 				DatePickerFragment dialog = DatePickerFragment.newInstance(mDerive.getDate());
+				dialog.setTargetFragment(DeriveFragment.this, REQUEST_DATE);
 				dialog.show(fm, DIALOG_DATE);
 				
 			}
