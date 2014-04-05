@@ -16,6 +16,19 @@ import android.widget.TextView;
 public class DeriveListFragment extends ListFragment {
 	private ArrayList<Derive> mDerives;
 	private static final String TAG = "DeriveListFragment";
+	private Statements[] mStatementBank = new Statements[] {
+			new Statements(R.string.statementBlocksForward),
+			new Statements(R.string.statementBlocksRight),
+			new Statements(R.string.statementBlocksBack),
+			new Statements(R.string.statementBlocksLeft),
+			new Statements(R.string.statementClimbForward),
+			new Statements(R.string.statementClimbRight),
+			new Statements(R.string.statementClimbBack),
+			new Statements(R.string.statementClimbLeft),
+			new Statements(R.string.statementFollowShirt),
+			new Statements(R.string.statementFollowPants),
+			new Statements(R.string.statementFollowHat),
+			new Statements(R.string.statementFollowShorts)};
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -60,9 +73,16 @@ public class DeriveListFragment extends ListFragment {
 			//Configure for Derive
 			Derive d = getItem(position);
 			
+			
 			//Set Title
 			TextView titleTextView = (TextView)convertView.findViewById(R.id.derive_list_item_titleTextView);
 			titleTextView.setText(d.getTitle());
+						
+			//Set Derive
+			TextView deriveTextView = (TextView)convertView.findViewById(R.id.derive_list_item_deriveTextView);
+			int i = d.getIndex();
+			int statement = mStatementBank[i].getStatement();
+			deriveTextView.setText(statement);
 			
 			//Set Date
 			TextView dateTextView = (TextView)convertView.findViewById(R.id.derive_list_item_dateTextView);

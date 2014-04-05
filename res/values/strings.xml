@@ -5,9 +5,21 @@
     <string name="title_activity_derive">DeriveActivity</string>
     <string name="derive_title_hint">Enter a title for the Derive.</string>
     <string name="derive_title_label">Title</string>
+    <string name="derive_instruction_label">Instructions</string>
     <string name="derive_details_label">Details</string>
     <string name="derive_done_label">Done?</string>
     <string name="derives_title">Derives</string>
     <string name="date_picker_title">Date of Derive:</string>
-    
+    <string name="statementBlocksForward">Go blocks forward </string>
+    <string name="statementBlocksRight">Go blocks right</string>
+    <string name="statementBlocksBack">Go blocks back</string>
+    <string name="statementBlocksLeft">Go blocks Left</string>
+    <string name="statementClimbForward">Climb onto the nearest object and navigate your way forward a block without touching the ground</string>
+    <string name="statementClimbRight">Climb onto the nearest object and navigate your way right a block without touching the ground</string>
+    <string name="statementClimbBack">Climb onto the nearest object and navigate your way back a block without touching the ground</string>
+    <string name="statementClimbLeft">Climb onto the nearest object and navigate your way left a block without touching the ground</string>
+    <string name="statementFollowShirt">Follow a person with a colored shirt for blocks</string>
+	<string name="statementFollowPants">Follow a person with a colored pair of pants for blocks</string>
+	<string name="statementFollowShorts">Follow a person with a colored pair of shorts for blocks</string>
+	<string name="statementFollowHat">Follow a person with a colored hat for blocks</string>
 </resources>

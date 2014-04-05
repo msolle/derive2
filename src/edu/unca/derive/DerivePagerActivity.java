@@ -58,7 +58,7 @@ public class DerivePagerActivity extends FragmentActivity {
 		UUID deriveId = (UUID)getIntent().getSerializableExtra(DeriveFragment.EXTRA_DERIVE_ID);
 		for(int i = 0; i < mDerives.size(); i++){
 			if(mDerives.get(i).getId().equals(deriveId)) {
-				mViewPager.setCurrentItem(i);
+				mViewPager.setCurrentItem(i);				
 				break;
 			}
 		}

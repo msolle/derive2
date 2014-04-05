@@ -1,6 +1,7 @@
 package edu.unca.derive;
 
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 public class Derive {
@@ -8,6 +9,8 @@ public class Derive {
 	private String mTitle;
 	private Date mDate;
 	private boolean mDone;
+	private int mIndex;
+	Random random = new Random();
 	
 	public String getTitle() {
 		return mTitle;
@@ -37,15 +40,29 @@ public class Derive {
 		return mId;
 	}
 	
+	public int getIndex() {
+		return mIndex;
+	}
+	
+	public void setIndex(int index) {
+		mIndex = index;
+	}
+	
 	public Derive() {
 		//Generate unique identifier
 		mId = UUID.randomUUID();
 		mDate = new Date();
+		mIndex = randInt(0, 4);
 	}
 	
 	@Override
 	public String toString() {
 		return mTitle;
+	}
+	
+	public int randInt(int min, int max) {
+		int randomNum = random.nextInt((max - min) + 1) + min;
+		return randomNum;
 	}
 	
 }

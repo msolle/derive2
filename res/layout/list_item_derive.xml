@@ -29,7 +29,7 @@
   <TextView android:id="@+id/derive_list_item_dateTextView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
+    android:gravity="left"
     android:layout_below="@id/derive_list_item_titleTextView"
     android:layout_toLeftOf="@id/derive_list_item_doneCheckBox"
     android:paddingLeft="4dp"
@@ -38,4 +38,15 @@
     android:textColor="#b5b5b5"
     android:background="#444444"
     android:text="Derive date" />
+  <TextView android:id="@+id/derive_list_item_deriveTextView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_below="@id/derive_list_item_dateTextView"
+    android:paddingTop="4dp"
+    android:textStyle="bold"
+    android:paddingBottom="4dp"
+    android:textColor="#b5b5b5"
+    android:background="#444444"
+    android:text="Derive instruction" />
 </RelativeLayout>
