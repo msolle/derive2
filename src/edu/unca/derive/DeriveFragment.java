@@ -136,7 +136,7 @@ public class DeriveFragment extends Fragment {
 		mDateButton.setOnClickListener(new View.OnClickListener() {		
 			public void onClick(View v) {
 				FragmentManager fm = getActivity().getSupportFragmentManager();
-				DatePickerFragment dialog = new DatePickerFragment();
+				DatePickerFragment dialog = DatePickerFragment.newInstance(mDerive.getDate());
 				dialog.show(fm, DIALOG_DATE);
 				
 			}
