@@ -42,6 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#b5b5b5"
+        android:paddingTop="24dp"
         android:text="@string/derive_instruction_label"
         style="?android:listSeparatorTextViewStyle"
         /> 
@@ -56,6 +57,7 @@
      <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="24dp"
         android:textColor="#b5b5b5"
         android:text="@string/derive_notes_label"
         style="?android:listSeparatorTextViewStyle"
