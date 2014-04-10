@@ -47,5 +47,33 @@
             android:text="@string/derive_done_label" />
 
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#b5b5b5"
+        android:text="@string/derive_instruction_label"
+        style="?android:listSeparatorTextViewStyle"
+        /> 
+    <TextView
+        android:id="@+id/statement_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#b5b5b5"
+		android:layout_marginLeft="24dp"
+		android:layout_marginRight="24dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#b5b5b5"
+        android:text="@string/derive_notes_label"
+        style="?android:listSeparatorTextViewStyle"
+        />
+    <EditText android:id="@+id/derive_notes"
+        android:textColor="#b5b5b5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"        
+        android:hint="@string/derive_notes_hint"
+        />
 
 </LinearLayout>
