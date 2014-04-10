@@ -14,16 +14,15 @@ public class DeriveList {
 	private static DeriveList sDeriveList;
 	private Context mAppContext;
 	
+	//Add derive to ArrayList<Derive> mDerives
+	public void addDerive(Derive d) {
+		mDerives.add(d);
+	}//addDerive
+	
 	//Private constructor
 	private DeriveList(Context appContext) {
 		mAppContext = appContext;
 		mDerives = new ArrayList<Derive>();
-		for(int i = 0; i < 100; i++) {
-			Derive d = new Derive();
-			d.setTitle("Derive: " + i);
-			d.setDone(i % 2 == 0); //Every other
-			mDerives.add(d);
-		}
 	}
 	
 	/**
@@ -46,6 +45,7 @@ public class DeriveList {
 		return mDerives;
 	}
 	
+	//get individual Derive by UUID
 	public Derive getDerive(UUID id) {
 		for(Derive c : mDerives) {
 			if(c.getId().equals(id))
