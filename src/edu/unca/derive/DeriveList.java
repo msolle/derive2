@@ -24,6 +24,11 @@ public class DeriveList {
 		mDerives.add(d);
 	}//addDerive
 	
+	//Remove derive
+	public void deleteDerive(Derive d) {
+		mDerives.remove(d);
+	}
+	
 	//Private constructor
 	public DeriveList(Context appContext) {
 		mAppContext = appContext;

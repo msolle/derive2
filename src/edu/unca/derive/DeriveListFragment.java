@@ -2,16 +2,21 @@ package edu.unca.derive;
 
 import java.util.ArrayList;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.NavUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -19,6 +24,7 @@ import android.widget.TextView;
 
 public class DeriveListFragment extends ListFragment {
 	private ArrayList<Derive> mDerives;
+	private boolean mSubtitleVisible;
 	private static final String TAG = "DeriveListFragment";
 	private Statements[] mStatementBank = new Statements[] {
 			new Statements(R.string.statementBlocksForward),
@@ -40,12 +46,16 @@ public class DeriveListFragment extends ListFragment {
 		setHasOptionsMenu(true);
 		getActivity().setTitle(R.string.derives_title);
 		mDerives = DeriveList.get(getActivity()).getDerives();
+		setRetainInstance(true);
+		mSubtitleVisible = false;
 		
 		DeriveAdapter adapter = new DeriveAdapter(mDerives);
 		setListAdapter(adapter);
 	}
 	
+	
 	//Responding to menu selection:
+	@TargetApi(11)
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
@@ -56,23 +66,71 @@ public class DeriveListFragment extends ListFragment {
 			i.putExtra(DeriveFragment.EXTRA_DERIVE_ID, derive.getId());
 			startActivityForResult(i, 0);
 			return true;
+		case R.id.menu_item_show_subtitle:
+			if(getActivity().getActionBar().getSubtitle() == null) {
+				getActivity().getActionBar().setSubtitle(R.string.subtitle);
+				mSubtitleVisible = true;
+				item.setTitle(R.string.hide_subtitle);
+			} else {
+				getActivity().getActionBar().setSubtitle(null);
+				mSubtitleVisible = false;
+				item.setTitle(R.string.show_subtitle);
+			}
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
+	
+	@TargetApi(11)
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+		View v = super.onCreateView(inflater, parent, savedInstanceState);
+		// Check version issues and enable return button
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+					if (NavUtils.getParentActivityIntent(getActivity()) != null) {
+						getActivity().getActionBar().setSubtitle(R.string.subtitle);
+					}
+				}
+				
+				ListView listview = (ListView)v.findViewById(android.R.id.list);
+				registerForContextMenu(listview);
+				return v;
+	}
+	
+	//Removing items
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
+		int position = info.position;
+		DeriveAdapter adapter = (DeriveAdapter)getListAdapter();
+		Derive derive = adapter.getItem(position);
+		switch(item.getItemId()) {
+		case R.id.menu_item_delete_derive:
+			DeriveList.get(getActivity()).deleteDerive(derive);
+			adapter.notifyDataSetChanged();
+			return true;
+		}
+		return super.onContextItemSelected(item);
+	}
+	
 	
 	//ContextMenu
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		getActivity().getMenuInflater().inflate(R.menu.derive_list_item_context, menu);
 	}
-	
 
 	//Menu
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu,inflater);
-		inflater.inflate(R.menu.fragment_derive_list, menu);
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.derive_fragment_list, menu);
+		MenuItem showSubtitle = menu.findItem(R.id.menu_item_show_subtitle);
+		if(mSubtitleVisible && showSubtitle != null) {
+			showSubtitle.setTitle(R.string.hide_subtitle);
+		}
 	}
+
 	
 	
 	
