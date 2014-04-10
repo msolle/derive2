@@ -4,7 +4,18 @@ import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Derive {
+	private static final String JSON_ID = "id";
+	private static final String JSON_TITLE = "title";
+	private static final String JSON_DONE = "done";
+	private static final String JSON_DATE = "date";
+	private static final String JSON_INDEX = "index";
+	private static final String JSON_NOTES = "notes";
+	
+	
 	private UUID mId;
 	private String mTitle;
 	private Date mDate;
@@ -65,6 +76,15 @@ public class Derive {
 		mIndex = randInt(0, 4);
 	}
 	
+	public Derive(JSONObject json) throws JSONException {
+		mId = UUID.fromString(json.getString(JSON_ID));
+		mTitle = json.getString(JSON_TITLE);
+		mDate = new Date(json.getString(JSON_DATE));
+		mDone = json.getBoolean(JSON_DONE);
+		mIndex = json.getInt(JSON_INDEX);
+		mNotes = json.getString(JSON_NOTES);
+	}
+	
 	@Override
 	public String toString() {
 		return mTitle;
@@ -75,4 +95,14 @@ public class Derive {
 		return randomNum;
 	}
 	
+	public JSONObject toJSON() throws JSONException {
+		JSONObject json = new JSONObject();
+		json.put(JSON_ID, mId.toString());
+		json.put(JSON_TITLE, mTitle);
+		json.put(JSON_DATE, mDate);
+		json.put(JSON_DONE, mDone);
+		json.put(JSON_INDEX, mIndex);
+		json.put(JSON_NOTES, mNotes);
+		return json;
+	}
 }

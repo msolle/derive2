@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import android.content.Context;
+import android.util.Log;
 
 /*
  * Singleton Object
  */
 
 public class DeriveList {
+	private static final String TAG = "DeriveList";
+	private static final String FILENAME = "derives.json";
+	private DeriveJSONSerializer mSerializer;
+	
 	private ArrayList<Derive> mDerives;
 	private static DeriveList sDeriveList;
 	private Context mAppContext;
@@ -20,9 +25,26 @@ public class DeriveList {
 	}//addDerive
 	
 	//Private constructor
-	private DeriveList(Context appContext) {
+	public DeriveList(Context appContext) {
 		mAppContext = appContext;
-		mDerives = new ArrayList<Derive>();
+		mSerializer = new DeriveJSONSerializer(mAppContext, FILENAME);
+		try {
+			mDerives = mSerializer.loadDerives();
+		} catch(Exception e) {
+			mDerives = new ArrayList<Derive>();
+			Log.e(TAG, "Error loading derives", e);
+		}
+	}
+	
+	public boolean saveDerives() {
+		try {
+			mSerializer.saveDerives(mDerives);
+			Log.d(TAG, "Derives saved to file");
+			return true;
+		} catch (Exception e) {
+			Log.e(TAG, "Error saving derives: ", e);
+			return false;
+		}
 	}
 	
 	/**

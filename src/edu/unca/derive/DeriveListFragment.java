@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -59,10 +61,20 @@ public class DeriveListFragment extends ListFragment {
 		}
 	}
 	
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.derive_fragment_list, menu);
+	//ContextMenu
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+		getActivity().getMenuInflater().inflate(R.menu.derive_list_item_context, menu);
 	}
+	
+
+	//Menu
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu,inflater);
+		inflater.inflate(R.menu.fragment_derive_list, menu);
+	}
+	
+	
 	
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		//Get derive from adapter
@@ -112,6 +124,7 @@ public class DeriveListFragment extends ListFragment {
 			//Set Date
 			TextView dateTextView = (TextView)convertView.findViewById(R.id.derive_list_item_dateTextView);
 			dateTextView.setText(d.getDate().toString());
+
 			
 			//Set check box
 			CheckBox doneCheckBox = (CheckBox)convertView.findViewById(R.id.derive_list_item_doneCheckBox);

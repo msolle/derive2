@@ -31,6 +31,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
@@ -233,10 +234,19 @@ public class DeriveFragment extends Fragment {
 				mDerive.setDone(isChecked);
 			}// onCheckedChange(CompoundButton, boolean)
 		});// check box listener
+		
+		
 
 		return v;
 
 	}// onCreateView
+	
+	//Saving on pause to file
+	@Override
+	public void onPause() {
+		super.onPause();
+		DeriveList.get(getActivity()).saveDerives();
+	}
 
 	// Responding to home button
 	@Override
