@@ -13,16 +13,21 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -33,6 +38,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
+@SuppressLint("NewApi")
 public class DeriveFragment extends Fragment {	
 	
 	public static final String EXTRA_DERIVE_ID = "edu.unca.derive.derive_id";
@@ -91,7 +97,8 @@ public class DeriveFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		UUID deriveId = (UUID)getArguments().getSerializable(EXTRA_DERIVE_ID);
-		mDerive = DeriveList.get(getActivity()).getDerive(deriveId);			
+		mDerive = DeriveList.get(getActivity()).getDerive(deriveId);
+		setHasOptionsMenu(true);
 		//mDerive = new Derive();
 	}//onCreate(Bundle)
 	
@@ -136,11 +143,20 @@ public class DeriveFragment extends Fragment {
 	/**
 	 * @return v Fragment view
 	 */
+	@TargetApi(11)
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState){
 		View v = inflater.inflate(R.layout.fragment_derive, parent, false);
+		
+		//Log current index in statement
 		mCurrentIndex = mDerive.getIndex();
 		Log.i(TAG, "index: " + mCurrentIndex);
-	    //mCurrentIndex = DeriveList.get(getActivity()).getDerive(deriveId).getIndex();	    
+		
+		//Check version issues and enable return button
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			if(NavUtils.getParentActivityIntent(getActivity()) != null) {
+				getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+			}
+		}
 		
 		// Array of statements
 		mStatementTextView = (TextView)v.findViewById(R.id.statement_text_view);
@@ -194,6 +210,20 @@ public class DeriveFragment extends Fragment {
 		return v;
 		
 	}//onCreateView
+	
+	//Responding to home button
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case android.R.id.home:
+			if(NavUtils.getParentActivityIntent(getActivity()) != null) {
+				NavUtils.navigateUpFromSameTask(getActivity());
+			}
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 
 
 private void editDateDialog() {

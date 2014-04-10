@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -40,6 +41,22 @@ public class DeriveListFragment extends ListFragment {
 		
 		DeriveAdapter adapter = new DeriveAdapter(mDerives);
 		setListAdapter(adapter);
+	}
+	
+	//Responding to menu selection:
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+		case R.id.menu_item_new_derive:
+			Derive derive = new Derive();
+			DeriveList.get(getActivity()).addDerive(derive);
+			Intent i = new Intent(getActivity(), DerivePagerActivity.class);
+			i.putExtra(DeriveFragment.EXTRA_DERIVE_ID, derive.getId());
+			startActivityForResult(i, 0);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 	
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
