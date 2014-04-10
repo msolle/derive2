@@ -10,6 +10,16 @@ public class Derive {
 	private Date mDate;
 	private boolean mDone;
 	private int mIndex;
+	private String mNotes;
+	
+	public String getNotes() {
+		return mNotes;
+	}
+
+	public void setNotes(String notes) {
+		mNotes = notes;
+	}
+
 	Random random = new Random();
 	
 	public String getTitle() {

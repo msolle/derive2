@@ -101,7 +101,8 @@ public class DeriveListFragment extends ListFragment {
 			//Set Title
 			TextView titleTextView = (TextView)convertView.findViewById(R.id.derive_list_item_titleTextView);
 			titleTextView.setText(d.getTitle());
-						
+
+			
 			//Set Derive
 			TextView deriveTextView = (TextView)convertView.findViewById(R.id.derive_list_item_deriveTextView);
 			int i = d.getIndex();
