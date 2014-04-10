@@ -8,7 +8,9 @@
 package edu.unca.derive;
 
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.UUID;
 
 import android.app.Activity;
@@ -37,7 +39,9 @@ public class DeriveFragment extends Fragment {
 	private static final String DIALOG_DATE = "date";
 	private static final String KEY_INDEX = "index"; 
 	private static final String TAG = "Derive";
-	private static final int REQUEST_DATE = 0;
+	private static final int REQUEST_DATE = 0xff;
+	private static final int REQUEST_TIME = 0xfe;
+    private static final int REQUEST_CHOICE = 0xfd;
 	
 	private Derive mDerive;
 	private EditText mTitleField;
@@ -105,11 +109,26 @@ public class DeriveFragment extends Fragment {
 	
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(resultCode != Activity.RESULT_OK) return;
-		if(requestCode == REQUEST_DATE){
-			Date date = (Date)data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-			mDerive.setDate(date);
-			updateDate();
-		}
+		if (requestCode == REQUEST_DATE) {
+	        Date date = (Date)data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+	        combineDate(date);
+	        updateDate();
+	    }
+	    if (requestCode == REQUEST_TIME) {
+	        Date date = (Date)data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
+	        combineTime(date);
+	        updateDate();
+	    }
+
+	    if (requestCode == REQUEST_CHOICE) {
+	        int choice = data.getIntExtra(ChoiceDialogFragment.EXTRA_CHOICE, 0);
+	        if (choice == 0) {
+	            Log.d("choice dialog", "requested choice returned nothing");
+	            return;
+	        }
+	        if (choice == ChoiceDialogFragment.CHOICE_TIME) editTimeDialog();
+	        else if (choice == ChoiceDialogFragment.CHOICE_DATE) editDateDialog();
+	    }
 	}
 	
 	
@@ -154,11 +173,11 @@ public class DeriveFragment extends Fragment {
 		updateDate();
 		mDateButton.setOnClickListener(new View.OnClickListener() {		
 			public void onClick(View v) {
-				FragmentManager fm = getActivity().getSupportFragmentManager();
-				DatePickerFragment dialog = DatePickerFragment.newInstance(mDerive.getDate());
-				dialog.setTargetFragment(DeriveFragment.this, REQUEST_DATE);
-				dialog.show(fm, DIALOG_DATE);
-				
+				//FragmentManager fm = getActivity().getSupportFragmentManager();
+				//DatePickerFragment dialog = DatePickerFragment.newInstance(mDerive.getDate());
+				//dialog.setTargetFragment(DeriveFragment.this, REQUEST_DATE);
+				//dialog.show(fm, DIALOG_DATE);
+				editDateTimeDialog();
 			}
 		});
 		
@@ -175,4 +194,54 @@ public class DeriveFragment extends Fragment {
 		return v;
 		
 	}//onCreateView
+
+
+private void editDateDialog() {
+    FragmentManager fm = getActivity().getSupportFragmentManager();
+    DatePickerFragment dialog = DatePickerFragment.newInstance(mDerive.getDate());
+    dialog.setTargetFragment(DeriveFragment.this, REQUEST_DATE);
+    dialog.show(fm, null);
+}
+
+private void editTimeDialog() {
+    FragmentManager fm = getActivity().getSupportFragmentManager();
+    TimePickerFragment dialog = TimePickerFragment.newInstance(mDerive.getDate());
+    dialog.setTargetFragment(DeriveFragment.this, REQUEST_TIME);
+    dialog.show(fm, null);
+}
+
+
+private void combineTime(Date time) {
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(mDerive.getDate());
+    int year = cal.get(Calendar.YEAR);
+    int month = cal.get(Calendar.MONTH);
+    int day = cal.get(Calendar.DAY_OF_MONTH);
+    cal.setTime(time);
+    int hours = cal.get(Calendar.HOUR_OF_DAY);
+    int mins = cal.get(Calendar.MINUTE);
+    Date finalD = new GregorianCalendar(year, month, day, hours, mins).getTime();
+    mDerive.setDate(finalD);
+}
+
+private void combineDate(Date date) {
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(date);
+    int year = cal.get(Calendar.YEAR);
+    int month = cal.get(Calendar.MONTH);
+    int day = cal.get(Calendar.DAY_OF_MONTH);
+    cal.setTime(mDerive.getDate());
+    int hours = cal.get(Calendar.HOUR_OF_DAY);
+    int mins = cal.get(Calendar.MINUTE);
+
+    Date finalD = new GregorianCalendar(year, month, day, hours, mins).getTime();
+    mDerive.setDate(finalD);
+}
+	
+	private void editDateTimeDialog() {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        ChoiceDialogFragment dialogFragment = new ChoiceDialogFragment();
+        dialogFragment.setTargetFragment(DeriveFragment.this, REQUEST_CHOICE);
+        dialogFragment.show(fm, null);
+    }
 }//DeriveFragment

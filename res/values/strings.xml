@@ -10,6 +10,15 @@
     <string name="derive_done_label">Done?</string>
     <string name="derives_title">Derives</string>
     <string name="date_picker_title">Date of Derive:</string>
+    <string name="time_picker_title">Time of Derive:</string>
+    <string name="dialog_editDate">Date</string>
+    <string name="dialog_editTime">Time</string>
+    <string name="dialog_editDateOrTime">Do you want to edit the date or time?</string>
+    <string name="new_derive">New Derive</string>
+    <string name="show_subtitle">Show Subtitle</string>
+    <string name="hide_subtitle">Hide Subtitle</string>
+    <string name="subtitle">Experience what is around you.</string>
+    <string name="delete_derive">Delete</string>
     <string name="statementBlocksForward">Go blocks forward </string>
     <string name="statementBlocksRight">Go blocks right</string>
     <string name="statementBlocksBack">Go blocks back</string>
