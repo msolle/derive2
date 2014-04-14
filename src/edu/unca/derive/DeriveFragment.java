@@ -1,4 +1,5 @@
 /**
+
  * @author Matthew P. Solle
  */
 
@@ -8,13 +9,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.UUID;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
@@ -31,7 +34,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
@@ -44,6 +48,8 @@ public class DeriveFragment extends Fragment {
 	private static final int REQUEST_DATE = 0xff;
 	private static final int REQUEST_TIME = 0xfe;
 	private static final int REQUEST_CHOICE = 0xfd;
+	private static final int REQUEST_PHOTO = 10;
+	private static final String DIALOG_IMAGE = "image";
 
 	private EditText mNotesField;
 	private Derive mDerive;
@@ -51,6 +57,8 @@ public class DeriveFragment extends Fragment {
 	private Button mDateButton;
 	private CheckBox mDoneCheckBox;
 	private TextView mStatementTextView;
+	ImageButton mPhotoButton;
+    ImageView mPhotoView;
 
 	private Statements[] mStatementBank = new Statements[] {
 			new Statements(R.string.statementBlocksForward),
@@ -137,7 +145,16 @@ public class DeriveFragment extends Fragment {
 				editTimeDialog();
 			else if (choice == ChoiceDialogFragment.CHOICE_DATE)
 				editDateDialog();
-		}
+		} else if (requestCode == REQUEST_PHOTO) {
+            // create a new Photo object and attach it to the crime
+            String filename = data
+                .getStringExtra(DeriveCameraFragment.EXTRA_PHOTO_FILENAME);
+            if (filename != null) {
+                Photo p = new Photo(filename);
+                mDerive.setPhoto(p);
+                showPhoto();	
+            }
+        }
 	}
 
 	/**
@@ -214,39 +231,90 @@ public class DeriveFragment extends Fragment {
 		updateDate();
 		mDateButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				// FragmentManager fm =
-				// getActivity().getSupportFragmentManager();
-				// DatePickerFragment dialog =
-				// DatePickerFragment.newInstance(mDerive.getDate());
-				// dialog.setTargetFragment(DeriveFragment.this, REQUEST_DATE);
-				// dialog.show(fm, DIALOG_DATE);
 				editDateTimeDialog();
 			}
 		});
+		
+		// if camera is not available, disable camera functionality
+        PackageManager pm = getActivity().getPackageManager();
+        if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA) &&
+                !pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT)) {
+            mPhotoButton.setEnabled(false);
+        }
+		
+        mPhotoButton = (ImageButton)v.findViewById(R.id.derive_imageButton);
+        mPhotoButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // launch the camera activity
+                Intent i = new Intent(getActivity(), DeriveCameraActivity.class);
+                startActivityForResult(i, REQUEST_PHOTO);
+            }
+        });
+        
+        mPhotoView = (ImageView)v.findViewById(R.id.derive_imageView);
+        mPhotoView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Photo p = mDerive.getPhoto();
+                if (p == null) 
+                    return;
+
+                FragmentManager fm = getActivity()
+                    .getSupportFragmentManager();
+                String path = getActivity()
+                    .getFileStreamPath(p.getFilename()).getAbsolutePath();
+                ImageFragment.createInstance(path)
+                    .show(fm, DIALOG_IMAGE);
+            }
+        });
+		
 
 		// Done Check Box
 		mDoneCheckBox = (CheckBox) v.findViewById(R.id.derive_done);
 		mDoneCheckBox.setChecked(mDerive.isDone());
 		mDoneCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
+					boolean isChecked) { 
 				// Set the Derive's done property
 				mDerive.setDone(isChecked);
 			}// onCheckedChange(CompoundButton, boolean)
 		});// check box listener
-		
-		
+
+
 
 		return v;
 
 	}// onCreateView
 	
+	private void showPhoto() {
+        // (re)set the image button's image based on our photo
+        Photo p = mDerive.getPhoto();
+        BitmapDrawable b = null;
+        if (p != null) {
+            String path = getActivity()
+                .getFileStreamPath(p.getFilename()).getAbsolutePath();
+            b = PictureUtils.getScaledDrawable(getActivity(), path);
+        }
+        mPhotoView.setImageDrawable(b);
+    }
+
 	//Saving on pause to file
 	@Override
 	public void onPause() {
 		super.onPause();
 		DeriveList.get(getActivity()).saveDerives();
 	}
+	
+	@Override
+    public void onStart() {
+        super.onStart();
+        showPhoto();
+    }
+    
+    @Override
+    public void onStop() {
+        super.onStop();
+        PictureUtils.cleanImageView(mPhotoView);
+    }
 
 	// Responding to home button
 	@Override

@@ -39,7 +39,7 @@ public class DeriveListFragment extends ListFragment {
 			new Statements(R.string.statementFollowPants),
 			new Statements(R.string.statementFollowHat),
 			new Statements(R.string.statementFollowShorts)};
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -48,12 +48,12 @@ public class DeriveListFragment extends ListFragment {
 		mDerives = DeriveList.get(getActivity()).getDerives();
 		setRetainInstance(true);
 		mSubtitleVisible = false;
-		
+
 		DeriveAdapter adapter = new DeriveAdapter(mDerives);
 		setListAdapter(adapter);
 	}
-	
-	
+
+
 	//Responding to menu selection:
 	@TargetApi(11)
 	@Override
@@ -81,7 +81,7 @@ public class DeriveListFragment extends ListFragment {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	@TargetApi(11)
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -92,12 +92,12 @@ public class DeriveListFragment extends ListFragment {
 						getActivity().getActionBar().setSubtitle(R.string.subtitle);
 					}
 				}
-				
+
 				ListView listview = (ListView)v.findViewById(android.R.id.list);
 				registerForContextMenu(listview);
 				return v;
 	}
-	
+
 	//Removing items
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
@@ -113,8 +113,8 @@ public class DeriveListFragment extends ListFragment {
 		}
 		return super.onContextItemSelected(item);
 	}
-	
-	
+
+
 	//ContextMenu
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
@@ -131,66 +131,66 @@ public class DeriveListFragment extends ListFragment {
 		}
 	}
 
-	
-	
-	
+
+
+
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		//Get derive from adapter
 		Derive d = ((DeriveAdapter)getListAdapter()).getItem(position);
 		//Log.d(TAG, d.getTitle() + " was clicked");
-		
+
 		//Start DerivePagerActivity
 		Intent i = new Intent(getActivity(), DerivePagerActivity.class);
 		i.putExtra(DeriveFragment.EXTRA_DERIVE_ID, d.getId());
 		startActivity(i);
-		
+
 	}
-	
+
 	public void onResume() {
 		super.onResume();
 		((DeriveAdapter)getListAdapter()).notifyDataSetChanged();
 	}
-	
+
 	private class DeriveAdapter extends ArrayAdapter<Derive> {
-		
+
 		public DeriveAdapter(ArrayList<Derive> derives) {
 			super(getActivity(), 0, derives);
 		}
-		
+
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			//Inflate view in none passed
 			if(convertView == null) {
 				convertView = getActivity().getLayoutInflater().inflate(R.layout.list_item_derive, null);				
 			}
-			
+
 			//Configure for Derive
 			Derive d = getItem(position);
-			
-			
+
+
 			//Set Title
 			TextView titleTextView = (TextView)convertView.findViewById(R.id.derive_list_item_titleTextView);
 			titleTextView.setText(d.getTitle());
 
-			
+
 			//Set Derive
 			TextView deriveTextView = (TextView)convertView.findViewById(R.id.derive_list_item_deriveTextView);
 			int i = d.getIndex();
 			int statement = mStatementBank[i].getStatement();
 			deriveTextView.setText(statement);
-			
+
 			//Set Date
 			TextView dateTextView = (TextView)convertView.findViewById(R.id.derive_list_item_dateTextView);
 			dateTextView.setText(d.getDate().toString());
 
-			
+
 			//Set check box
 			CheckBox doneCheckBox = (CheckBox)convertView.findViewById(R.id.derive_list_item_doneCheckBox);
 			doneCheckBox.setChecked(d.isDone());
-			
+
 			return convertView;
 		}
-		
+
 	}
 
 }

@@ -14,33 +14,35 @@ public class DeriveList {
 	private static final String TAG = "DeriveList";
 	private static final String FILENAME = "derives.json";
 	private DeriveJSONSerializer mSerializer;
-	
+
 	private ArrayList<Derive> mDerives;
 	private static DeriveList sDeriveList;
 	private Context mAppContext;
-	
+
 	//Add derive to ArrayList<Derive> mDerives
 	public void addDerive(Derive d) {
 		mDerives.add(d);
 	}//addDerive
-	
+
 	//Remove derive
 	public void deleteDerive(Derive d) {
 		mDerives.remove(d);
 	}
-	
+
 	//Private constructor
-	public DeriveList(Context appContext) {
+	private DeriveList(Context appContext) {
 		mAppContext = appContext;
 		mSerializer = new DeriveJSONSerializer(mAppContext, FILENAME);
+		Log.e(TAG, "Calling JSON");
 		try {
 			mDerives = mSerializer.loadDerives();
+			Log.e(TAG, "Load successful");
 		} catch(Exception e) {
 			mDerives = new ArrayList<Derive>();
 			Log.e(TAG, "Error loading derives", e);
 		}
 	}
-	
+
 	public boolean saveDerives() {
 		try {
 			mSerializer.saveDerives(mDerives);
@@ -51,7 +53,7 @@ public class DeriveList {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Creates singleton if not already existing, else returns singleton
 	 * @param c allows singleton to start activities, access resources, find storage, etc.
@@ -63,7 +65,7 @@ public class DeriveList {
 		}
 		return sDeriveList;
 	}
-	
+
 	/**
 	 * Getter for mDerives
 	 * @return ArrayList of type Derive
@@ -71,7 +73,7 @@ public class DeriveList {
 	public ArrayList<Derive> getDerives() {
 		return mDerives;
 	}
-	
+
 	//get individual Derive by UUID
 	public Derive getDerive(UUID id) {
 		for(Derive c : mDerives) {
@@ -80,5 +82,5 @@ public class DeriveList {
 		}
 		return null;
 	}
-	
+
 }

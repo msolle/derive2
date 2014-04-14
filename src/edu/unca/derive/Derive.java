@@ -14,7 +14,7 @@ public class Derive {
 	private static final String JSON_DATE = "date";
 	private static final String JSON_INDEX = "index";
 	private static final String JSON_NOTES = "notes";
-	
+	private static final String JSON_PHOTO = "photo";
 	
 	private UUID mId;
 	private String mTitle;
@@ -22,6 +22,7 @@ public class Derive {
 	private boolean mDone;
 	private int mIndex;
 	private String mNotes;
+	private Photo mPhoto;
 	
 	public String getNotes() {
 		return mNotes;
@@ -82,7 +83,10 @@ public class Derive {
 		mDate = new Date(json.getString(JSON_DATE));
 		mDone = json.getBoolean(JSON_DONE);
 		mIndex = json.getInt(JSON_INDEX);
-		mNotes = json.getString(JSON_NOTES);
+			mNotes = json.getString(JSON_NOTES);
+		if(json.has(JSON_PHOTO)) {
+			mPhoto = new Photo(json.getJSONObject(JSON_PHOTO));
+		}
 	}
 	
 	@Override
@@ -103,6 +107,17 @@ public class Derive {
 		json.put(JSON_DONE, mDone);
 		json.put(JSON_INDEX, mIndex);
 		json.put(JSON_NOTES, mNotes);
+		if(mPhoto != null) {
+			json.put(JSON_PHOTO, mPhoto.toJSON());
+		}
 		return json;
+	}
+
+	public Photo getPhoto() {
+		return mPhoto;
+	}
+
+	public void setPhoto(Photo photo) {
+		mPhoto = photo;
 	}
 }

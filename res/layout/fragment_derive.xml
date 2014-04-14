@@ -1,22 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#444444"> 
-    <TextView
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical"
+  android:background="#444444"
+  >
+  <LinearLayout 
+    android:background="#444444"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="16dp"
+    >
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:layout_marginRight="4dp"
+      >
+      <ImageView android:id="@+id/derive_imageView"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerInside"
+        android:background="@android:color/darker_gray"
+        android:cropToPadding="true"/>
+      <ImageButton android:id="@+id/derive_imageButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#b5b5b5"
+        android:src="@android:drawable/ic_menu_camera"
+        />     
+    </LinearLayout>
+    <LinearLayout
+      android:background="#444444"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:layout_weight="1"
+      >
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/derive_title_label"
         style="?android:listSeparatorTextViewStyle"
         />
-    <EditText android:id="@+id/derive_title"
-        android:textColor="#b5b5b5"
+      <EditText android:id="@+id/derive_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"        
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
         android:hint="@string/derive_title_hint"
         />
+    </LinearLayout>
+  </LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,4 +102,5 @@
         android:layout_height="wrap_content"        
         android:hint="@string/derive_notes_hint"
         />
+    
 </LinearLayout>
