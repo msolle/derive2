@@ -115,16 +115,14 @@ public class DeriveFragment extends Fragment {
 
 	// Abstraction for date update
 	public void updateDate() {
-		mDateButton.setText(DateFormat.format("K:mm a, EEEE, MMM dd, yyyy",
-				mDerive.getDate()).toString());
+		mDateButton.setText(mDerive.getDate().toString());
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode != Activity.RESULT_OK)
 			return;
 		if (requestCode == REQUEST_DATE) {
-			Date date = (Date) data
-					.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+			Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
 			combineDate(date);
 			updateDate();
 		}
