@@ -75,11 +75,8 @@ public class Derive {
 		mId = UUID.randomUUID();
 		mDate = new Date();
 		mIndex = randInt(0, 4);
-<<<<<<< HEAD
 		mTitle = "Title: ";
 		mNotes = "Notes: ";
-=======
->>>>>>> e2bac4544e192407f1d88a065b6fa16599f7a81b
 	}
 	
 	public Derive(JSONObject json) throws JSONException {
